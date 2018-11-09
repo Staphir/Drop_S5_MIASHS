@@ -1,0 +1,2 @@
+#agrandir la taille de la fenetre en fonction du nombre de carrés a placer (si on les met
+#en vertical, augmenter le nombre de lignes de la zone non jouable)
