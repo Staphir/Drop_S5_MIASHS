@@ -14,6 +14,7 @@ class Drop(Win):
         self.cols = cols
         self.colors = ['#0066CC','#CDCDCD', '#FF0000', '#00FF00', '#0000FF']
         self.level = 3
+        self.ligne = True
 
         frame= Frame(self)
         Button(frame, text='Reset', width="9", bg="#CDCDCD", command=self.reset)
@@ -42,12 +43,16 @@ class Drop(Win):
     def event(self, widget, code, mods):
         if code == 'Down':
             self.moveDown()
+            self.show()
         if code == 'Left':
             self.moveLeft()
+            self.show()
         if code == 'Right':
             self.moveRight()
+            self.show()
         if code == 'Up':
             self.rotate()
+            self.show()
         #si on actionne la touche bas, gauche, droite ou haut, on renvoie la fonction correspondante
 
     def show(self):
@@ -68,24 +73,33 @@ class Drop(Win):
     def newBricks(self):
         for c in range(self.nbBricks):
             self.grid[self.nbBricks-1,c] = random.randint(2,self.level)
+        self.ligne = True
 
     def moveLeft(self):
-        if self.begin-1 >= 0:
-            lNewMax = self.nbBricks-1
-            newColors = [[self.gridBricks[lNewMax][i + self.begin]['bg']] for i in range(self.end - self.begin + 1)]
-            for i in range(self.end-self.begin+1):
-                self.gridBricks[lNewMax][self.begin-1+i]['bg'] = newColors[i]
-            self.gridBricks[lNewMax][self.end]['bg'] = self.colors[0]
-            self.begin, self.end = self.begin-1, self.end-1
+        positionAccepted = False
+        if self.grid[self.nbBricks-1,0] == 0:
+            positionAccepted = True
+
+        # if positionAccepted == True:
+            # lNewMax = self.nbBricks-1
+            # newColors = [[self.gridBricks[lNewMax][i + self.begin]['bg']] for i in range(self.end - self.begin + 1)]
+            # for i in range(self.end-self.begin+1):
+            #     self.gridBricks[lNewMax][self.begin-1+i]['bg'] = newColors[i]
+            # self.gridBricks[lNewMax][self.end]['bg'] = self.colors[0]
+            # self.begin, self.end = self.begin-1, self.end-1
 
     def moveRight(self):
-        if self.end+1 < self.cols:
-            lNewMax = self.nbBricks-1
-            newColors = [[self.gridBricks[lNewMax][i + self.begin]['bg']] for i in range(self.end - self.begin + 1)]
-            for i in range(self.end-self.begin+1):
-                self.gridBricks[lNewMax][self.end+1-i]['bg'] = newColors[self.end-self.begin-i]
-            self.gridBricks[lNewMax][self.begin]['bg'] = self.colors[0]
-            self.begin, self.end = self.begin+1, self.end+1
+        positionAccepted = False
+        if self.grid[self.nbBricks-1,self.cols-1] == 0:
+            positionAccepted = True
+
+        # if positionAccepted == True:
+            # lNewMax = self.nbBricks-1
+            # newColors = [[self.gridBricks[lNewMax][i + self.begin]['bg']] for i in range(self.end - self.begin + 1)]
+            # for i in range(self.end-self.begin+1):
+            #     self.gridBricks[lNewMax][self.end+1-i]['bg'] = newColors[self.end-self.begin-i]
+            # self.gridBricks[lNewMax][self.begin]['bg'] = self.colors[0]
+            # self.begin, self.end = self.begin+1, self.end+1
 
     def moveDown(self):
         colorBase = [self.colors[0], self.colors[1]]
@@ -123,10 +137,29 @@ class Drop(Win):
                 j = j + 1
 
     def rotate(self):
-        pass
+        N = self.nbBricks
+        debut = False
+        cMax = N-1
+        while debut == False and self.grid[N-1,cMax] != 0:
+            if self.grid[N-1,cMax] != 0:
+                debut = True
+            cMax += 1
+        cMax = cMax-1
+        if self.ligne == True:
+            for i in range(N-1):
+                self.grid[i,cMax] = self.grid[N-1,cMax-N+1+i]
+                self.grid[N-1,cMax-N+1+i] = 0
+            self.ligne = False
+        else:
+            for i in reversed(range(N)):
+                self.grid[N-1,cMax-i] = self.grid[i,cMax]
+                self.grid[i,cMax] = 0
+            self.ligne = True
 
     def dfs(self, noeud, other):
         pass
+    # ATENTION : 1) le plus bas --- 2) le plus à gauche
 
     def breaked(self, listSquares):
-        pass
+        for i in listSquares:
+            self.grid[i] = 1
