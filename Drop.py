@@ -29,9 +29,6 @@ class Drop(Win):
         #dans le tableau, si on est avant la ligne 4, alors la grille a la couleur du fond
         #sinon la grille a la couleur de la zone jouable
 
-        self.begin = 1
-        self.end = 2
-
         #grille [x][-y] debut en haut a gauche
         self.gridBricks = self[0]
         # self.gridBricks[self.nbBricks-1][1]['bg'] = self.colors[2]
@@ -76,85 +73,84 @@ class Drop(Win):
         self.ligne = True
 
     def moveLeft(self):
-        positionAccepted = False
         if self.grid[self.nbBricks-1,0] == 0:
-            positionAccepted = True
-
-        # if positionAccepted == True:
-            # lNewMax = self.nbBricks-1
-            # newColors = [[self.gridBricks[lNewMax][i + self.begin]['bg']] for i in range(self.end - self.begin + 1)]
-            # for i in range(self.end-self.begin+1):
-            #     self.gridBricks[lNewMax][self.begin-1+i]['bg'] = newColors[i]
-            # self.gridBricks[lNewMax][self.end]['bg'] = self.colors[0]
-            # self.begin, self.end = self.begin-1, self.end-1
+            for i in range(self.nbBricks):
+                for j in range(1,self.cols):
+                    self.grid[i,j-1] = self.grid[i,j]
+                    self.grid[i, j] = 0
 
     def moveRight(self):
-        positionAccepted = False
         if self.grid[self.nbBricks-1,self.cols-1] == 0:
-            positionAccepted = True
-
-        # if positionAccepted == True:
-            # lNewMax = self.nbBricks-1
-            # newColors = [[self.gridBricks[lNewMax][i + self.begin]['bg']] for i in range(self.end - self.begin + 1)]
-            # for i in range(self.end-self.begin+1):
-            #     self.gridBricks[lNewMax][self.end+1-i]['bg'] = newColors[self.end-self.begin-i]
-            # self.gridBricks[lNewMax][self.begin]['bg'] = self.colors[0]
-            # self.begin, self.end = self.begin+1, self.end+1
+            for i in range(self.nbBricks):
+                for j in reversed(range(1,self.cols)):
+                    self.grid[i,j] = self.grid[i,j-1]
+                    self.grid[i,j-1] = 0
 
     def moveDown(self):
-        colorBase = [self.colors[0], self.colors[1]]
-        newColors = [self.colors[2], self.colors[3]]
-        for i in range (3):
-            self.gridBricks[i][self.begin]['bg'] = self.colors[0]
-            self.gridBricks[i + 1][self.begin]['bg'] = newColors[0]
+        N = self.nbBricks
+        debut = False
+        col = 0
 
-        for j in range (3):
-            self.gridBricks[j][self.end]['bg'] = self.colors[0]
-            self.gridBricks[j + 1][self.end]['bg'] = newColors[0]
+        while debut == False:
+            if self.grid[N-1,col] != 0:
+                debut = True
+                break
+            col += 1
 
-        i=3
-        j=3
-        while i < self.rows:
-            if not self.gridBricks[i+1][self.begin]['bg'] in colorBase:
-                break
-            else:
-                self.gridBricks[i][self.begin]['bg'] = self.colors[1]
-                self.gridBricks[i+1][self.begin]['bg'] = newColors[0]
-            if i+2 >= self.rows:
-                break
-            else:
-                i = i + 1
-
-        while j < self.rows:
-            if not self.gridBricks[j+1][self.end]['bg'] in colorBase:
-                break
-            else:
-                self.gridBricks[j][self.end]['bg'] = self.colors[1]
-                self.gridBricks[j+1][self.end]['bg'] = newColors[1]
-            if j+2 >= self.rows:
-                break
-            else:
-                j = j + 1
+        if self.ligne == True:
+            for i in range(col, col+self.nbBricks):
+                j=self.nbBricks+2
+                while j < self.rows:
+                    if self.grid[j,i] > 1:
+                        self.grid[j-1,i] = self.grid[self.nbBricks-1,i]
+                        self.grid[self.nbBricks-1,i] = 0
+                        print(self.grid[j-1,i])
+                        break
+                    else:
+                        j += 1
+                if j == self.rows:
+                    self.grid[j-1, i] = self.grid[self.nbBricks-1, i]
+                    self.grid[self.nbBricks-1, i] = 0
+        else:
+            for i in reversed(range(self.nbBricks)):
+                j=self.nbBricks+2
+                while j < self.rows:
+                    if self.grid[j,col] > 1:
+                        self.grid[j-1,col] = self.grid[i,col]
+                        self.grid[i,col] = 0
+                        break
+                    else:
+                        j += 1
+                if j == self.rows:
+                    self.grid[self.rows-1, col] = self.grid[i, col]
+                    self.grid[i, col] = 0
+        self.newBricks()
 
     def rotate(self):
         N = self.nbBricks
         debut = False
-        cMax = N-1
-        while debut == False and self.grid[N-1,cMax] != 0:
+        cMax = 0
+
+        while debut == False:
             if self.grid[N-1,cMax] != 0:
                 debut = True
+                break
             cMax += 1
-        cMax = cMax-1
+
+        if self.ligne == True:
+            cMax = cMax + self.nbBricks-1
+
         if self.ligne == True:
             for i in range(N-1):
                 self.grid[i,cMax] = self.grid[N-1,cMax-N+1+i]
                 self.grid[N-1,cMax-N+1+i] = 0
             self.ligne = False
         else:
-            for i in reversed(range(N)):
-                self.grid[N-1,cMax-i] = self.grid[i,cMax]
-                self.grid[i,cMax] = 0
-            self.ligne = True
+            if cMax > self.nbBricks-2:
+                for i in reversed(range(N)):
+                    self.grid[N-1,cMax-i] = self.grid[i,cMax]
+                    self.grid[i,cMax] = 0
+                self.ligne = True
 
     def dfs(self, noeud, other):
         pass
