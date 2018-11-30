@@ -1,22 +1,40 @@
-# ------------------------------------------------------------------------------
 from ezTK import *
-from Grid import *
-import random
+from Drop import *
 # ------------------------------------------------------------------------------
 
-class Drop():
+class Interface_game(Win):
 
-    def __init__(self, rows=8, cols=5, nbNewBricks=3):
-        self.nbBricks = nbNewBricks
-        rows += self.nbBricks + 1
-        self.rows = rows
-        self.cols = cols
-        self.level = 3
-        self.ligne = True
+    def __init__(self,rows=8, cols=5, size=64, nbNewBricks=3):
+        Win.__init__(self, title='DROP', bg=('#0066CC'),op=10)
         self.score = '0'
+        self.colors = ['#0066CC','#CDCDCD', '#FF0000', '#00FF00', '#0000FF']
+        self.returnMenu = Button(self, text='Menu', font='Cambria 11', width="15", height='1', bg=self.colors[1], command=self.returnMenu)
+        self.drop = Drop()
 
-        #Création de la grille vide
-        self.grid = grid(self.rows, self.cols, 0)
+        self.frameGrid = Frame(self,fold=cols,op=3)
+        for n in range(cols * rows): Brick(self.frameGrid, width=size, height=size, bd=0)
+
+        self.resetGrid()
+        #dans le tableau, si on est avant la ligne 4, alors la grille a la couleur du fond
+        #sinon la grille a la couleur de la zone jouable
+
+        #grille [x][-y] debut en haut a gauche
+        self.gridBricks = self[0]
+        # self.gridBricks[self.nbBricks-1][1]['bg'] = self.colors[2]
+        #deuxieme ligne deuxieme colonne : initiatisation d'une brique colorée a empiler
+        # self.gridBricks[self.nbBricks-1][2]['bg'] = self.colors[3]
+        # deuxieme ligne troisieme colonne : initiatisation d'une brique colorée a empiler
+
+        self.loop()
+
+    def show(self):
+        pass
+
+    def resetGrid(self):
+        pass
+
+    def returnMenu(self):
+        pass
 
     def event(self, widget, code, mods):
         if code == 'Down':
@@ -32,29 +50,6 @@ class Drop():
             self.rotate()
             self.show()
         #si on actionne la touche bas, gauche, droite ou haut, on renvoie la fonction correspondante
-
-    def show(self):
-        #modification score
-        #possibilité d'ajout de nouvelle couleur
-        #refresh
-        for r in range(self.rows):
-            for c in range(self.cols):
-                self.frameGrid[r][c]['bg'] = self.colors[self.grid[r,c]]
-
-    def reset(self):
-        for r in range(self.rows):
-            for c in range(self.cols):
-                if r<self.nbBricks + 1:
-                    self.grid[r,c] = 0
-                else:
-                    self.grid[r,c] = 1
-        self.newBricks()
-        self.show()
-
-    def newBricks(self):
-        for c in range(self.nbBricks):
-            self.grid[self.nbBricks-1,c] = random.randint(2,self.level)
-        self.ligne = True
 
     def moveLeft(self):
         if self.grid[self.nbBricks-1,0] == 0:
@@ -136,8 +131,4 @@ class Drop():
                     self.grid[i,cMax] = 0
                 self.ligne = True
 
-    # ATENTION : 1) le plus bas --- 2) le plus à gauche
-
-    def breaked(self, listSquares):
-        for i in listSquares:
-            self.grid[i] = 1
+    #!!! Dialogue entre interface et Drop pendant l'ensemble du break (surtout si plusieurs break) !!!

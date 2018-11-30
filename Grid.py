@@ -15,7 +15,6 @@ class grid(object):
     """initialize 'self' with provided arguments"""
     self.row, self.col, self.none, self.size = row, col, none, row*col
     self._grid = [[self.none for c in range(col)] for r in range(row)]
-    
   # ----------------------------------------------------------------------------
   def __repr__(self):
     """return object representation for 'self'"""

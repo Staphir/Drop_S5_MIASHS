@@ -5,10 +5,11 @@ __author__  = "Lucie Thomasson & Maxime Dulieu"
 __version__ = "3.0" # toggle between two different master windows
 __date__    = "2018-10-19"
 # ==============================================================================
-from Drop import *
+from Interface_menu import *
+from Interface_game import *
 # ------------------------------------------------------------------------------
 
 # ==============================================================================
 if __name__ == "__main__": # testcode for class 'DemoWin'
-  Drop(7,8,64,3)
+  Interface_game()
 # ==============================================================================
