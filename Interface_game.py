@@ -4,11 +4,11 @@ from Drop import *
 
 class Interface_game(Win):
 
-    def __init__(self,rows=6, cols=5, size=64, nbNewBricks=3, maxLevel=5):
+    def __init__(self,rows=6, cols=5, size=64, nbNewBricks=3):
         Win.__init__(self, title='DROP', bg=('#0066CC'),op=10,key=self.event)
         rows += nbNewBricks
         self.txtScore = '0'
-        self.colors = ['#0066CC','#CDCDCD', '#FF0000', '#00FF00', '#0000FF', '#FFFFFF']
+        self.colors = ['#0066CC','#CDCDCD', '#FF0000', '#00FF00', '#0000FF', '#FF0F0F', '#570A2B']
         self.score = Label(self, text=self.txtScore, font='Cambria 14', width="2", bg="#0066CC")
 
         self.reset = Button(self, text='Reset', font='Cambria 11', width="15", height='1', bg=self.colors[1], command=self.resetGrid)
@@ -18,7 +18,7 @@ class Interface_game(Win):
         for n in range(cols * rows): Brick(self.frameGrid, width=size, height=size, bd=0)
 
         self.returnMenu = Button(self, text='Menu', font='Cambria 11', width="15", height='1', bg=self.colors[1], command=self.returnMenu)
-        self.drop = Drop(rows,cols)
+        self.drop = Drop(rows,cols,nbNewBricks)
 
         self.resetGrid()
 
@@ -43,6 +43,7 @@ class Interface_game(Win):
         if code == 'Down':
             self.drop.fall()
             self.show()
+            self.after(500, self.stepBreak)
         if code == 'Left':
             self.drop.moveLeft()
             self.show()
@@ -55,7 +56,13 @@ class Interface_game(Win):
         #si on actionne la touche bas, gauche, droite ou haut, on renvoie la fonction correspondante
 
     def stepBreak(self):
+        self.drop.step()
+        self.show()
         while self.drop.stopBreak == False:
             self.drop.step()
             self.show()
+        self.drop.newBricks()
+        self.show()
+        self.drop.endGame()
+        self.drop.stopBreak = False
     #!!! Dialogue entre interface et Drop pendant l'ensemble du break (surtout si plusieurs break) !!!
