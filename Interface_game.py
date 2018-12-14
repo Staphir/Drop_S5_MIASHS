@@ -4,7 +4,7 @@ from Drop import *
 
 class Interface_game(Win):
 
-    def __init__(self,rows=6, cols=5, size=64, nbNewBricks=3):
+    def __init__(self,rows=6, cols=5, nbNewBricks=3, size=64):
         Win.__init__(self, title='DROP', bg=('#0066CC'),op=10,key=self.event)
         rows += nbNewBricks
         self.txtScore = '0'
