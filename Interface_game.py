@@ -1,23 +1,24 @@
 from ezTK import *
 from Drop import *
+from time import sleep
 # ------------------------------------------------------------------------------
 
 class Interface_game(Win):
 
     def __init__(self,rows=6, cols=5, nbNewBricks=3, size=64):
-        Win.__init__(self, title='DROP', bg=('#0066CC'),op=10,key=self.event)
+        Win.__init__(self, title='DROP', bg=('#116269'),op=10,key=self.event)
         rows += nbNewBricks+1
         self.txtScore = '0'
-        self.colors = ['#0066CC','#CDCDCD', '#FF0000', '#00FF00', '#0000FF', '#A75500', '#570A2B']
-        self.score = Label(self, text=self.txtScore, font='Cambria 14', width="2", bg="#0066CC")
+        self.colors = ['#116269','#041725', '#C34223', '#F38D1F', '#FFED90', '#28FB57', '#00FFD2', '#428BFF', '#4007C4', '#000FFF']
+        self.score = Label(self, text=self.txtScore, font='Cambria 14', width="2", bg=self.colors[0])
 
-        self.reset = Button(self, text='Reset', font='Cambria 11', width="15", height='1', bg=self.colors[1], command=self.resetGrid)
-        self.regles = Button(self, text='Règles', font='Cambria 11', width="15", height='1', bg=self.colors[1], command=self.rules)
+        self.reset = Button(self, text='Reset', font='Cambria 11', width="15", height='1', command=self.resetGrid)
+        self.regles = Button(self, text='Règles', font='Cambria 11', width="15", height='1', command=self.rules)
 
         self.frameGrid = Frame(self,fold=cols,op=3)
         for n in range(cols * rows): Brick(self.frameGrid, width=size, height=size, bd=0)
 
-        self.returnMenu = Button(self, text='Menu', font='Cambria 11', width="15", height='1', bg=self.colors[1], command=self.returnMenu)
+        self.returnMenu = Button(self, text='Menu', font='Cambria 11', width="15", height='1', command=self.returnMenu)
         self.drop = Drop(rows,cols,nbNewBricks)
 
         self.resetGrid()
@@ -28,6 +29,7 @@ class Interface_game(Win):
         for r in range(self.drop.rows):
             for c in range(self.drop.cols):
                 self.frameGrid[r][c]['bg'] = self.colors[self.drop.grid[r,c]]
+        self.frameGrid.update()
 
     def resetGrid(self):
         self.drop.reset()
@@ -59,9 +61,9 @@ class Interface_game(Win):
         self.drop.step()
         self.show()
         while self.drop.stopBreak == False:
+            sleep(1.5)
             self.drop.step()
-            self.after(500, self.show())
-            # self.show()
+            self.show()
         if not self.drop.endGame():
             self.drop.newBricks()
         self.show()

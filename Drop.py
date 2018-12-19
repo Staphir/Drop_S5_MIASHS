@@ -116,11 +116,15 @@ class Drop():
                 self.grid[N-1,cMax-N+1+i] = 0
             self.ligne = False
         else:
-            if cMax > self.nbBricks-2:
-                for i in reversed(range(N)):
-                    self.grid[N-1,cMax-i] = self.grid[i,cMax]
+            if not cMax > self.nbBricks-2:
+                for i in range(N):
+                    self.grid[i,N-1] = self.grid[i,cMax]
                     self.grid[i,cMax] = 0
-                self.ligne = True
+                cMax = N-1
+            for i in reversed(range(N)):
+                self.grid[N-1,cMax-i] = self.grid[i,cMax]
+                self.grid[i,cMax] = 0
+            self.ligne = True
 
     # ATENTION : 1) le plus bas --- 2) le plus à gauche
     def step(self):
@@ -135,7 +139,7 @@ class Drop():
                     print(listBricks)
                     self.breaked(listBricks)
         self.addNewBricks()
-        self.gravity()
+        self.fall()
 
     def lookBricks(self, listBricks, coordonnees):
         x = coordonnees[0]
@@ -164,31 +168,6 @@ class Drop():
     def addNewBricks(self):
         for tuple in self.listNewBricks:
             self.grid[tuple[0],tuple[1]] = tuple[2]
-
-    def gravity(self):
-        for x in range(0,self.rows-1):
-            for y in range(0,self.cols):
-                if self.grid[x,y] > 1 and self.grid[x+1,y] in (1,0):
-                    self.grid[x+1,y] = self.grid[x,y]
-                    if x <= self.nbBricks:
-                        self.grid[x,y] = 0
-                    else:
-                        self.grid[x,y] = 1
-
-        # for x in range(self.rows-1,1,-1):
-        #     for y in range(0, self.cols):
-        #         x_tmp = x
-        #         while x_tmp < self.rows:
-        #             if self.grid[x_tmp-1,y] > 1 and self.grid[x_tmp,y] in (1,0):
-        #                 empty_tmp = self.grid[x_tmp,y]
-        #                 self.grid[x_tmp,y] = self.grid[x_tmp-1,y]
-        #                 self.grid[x_tmp-1,y] = empty_tmp
-        #                 break
-        #             else:
-        #                 x_tmp += 1
-                # if x_tmp == self.rows:
-                #     self.grid[self.rows-1, col] = self.grid[i, col]
-                #     self.grid[i, col] = 0
 
     def endGame(self):
         c = 0

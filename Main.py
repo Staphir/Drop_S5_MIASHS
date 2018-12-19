@@ -15,6 +15,6 @@ if __name__ == "__main__":
   # g = grid(5,3,0)
   # for i in range(g.col): print(g[1,i])
   # # print(g)
-  Interface_game(6,8,4)
+  Interface_game(5,6,3)
   #Interface_game(6,5,3)
 # ==============================================================================
