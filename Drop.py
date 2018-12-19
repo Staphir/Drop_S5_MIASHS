@@ -16,6 +16,7 @@ class Drop():
         self.score = '0'
         self.stopBreak = False
         self.listNewBricks = []
+        self.nbStep = 0
 
         #Création de la grille vide
         self.grid = grid(self.rows, self.cols, 0)
@@ -59,42 +60,6 @@ class Drop():
                             self.grid[x,y] = 0
                         else:
                             self.grid[x,y] = 1
-        # N = self.nbBricks
-        # debut = False
-        # col = 0
-        #
-        # while debut == False:
-        #     if self.grid[N-1,col] != 0:
-        #         debut = True
-        #         break
-        #     col += 1
-        #
-        # if self.ligne == True:
-        #     for i in range(col, col+self.nbBricks):
-        #         j=self.nbBricks+1
-        #         while j < self.rows:
-        #             if self.grid[j,i] > 1:
-        #                 self.grid[j-1,i] = self.grid[self.nbBricks-1,i]
-        #                 self.grid[self.nbBricks-1,i] = 0
-        #                 break
-        #             else:
-        #                 j += 1
-        #         if j == self.rows:
-        #             self.grid[j-1, i] = self.grid[self.nbBricks-1, i]
-        #             self.grid[self.nbBricks-1, i] = 0
-        # else:
-        #     for i in reversed(range(self.nbBricks)):
-        #         j=self.nbBricks+1
-        #         while j < self.rows:
-        #             if self.grid[j,col] > 1:
-        #                 self.grid[j-1,col] = self.grid[i,col]
-        #                 self.grid[i,col] = 0
-        #                 break
-        #             else:
-        #                 j += 1
-        #         if j == self.rows:
-        #             self.grid[self.rows-1, col] = self.grid[i, col]
-        #             self.grid[i, col] = 0
 
     def rotate(self):
         N = self.nbBricks
@@ -128,6 +93,7 @@ class Drop():
 
     # ATENTION : 1) le plus bas --- 2) le plus à gauche
     def step(self):
+        self.nbStep += 1
         print("step")
         self.stopBreak = True
         self.listNewBricks = []
@@ -154,6 +120,7 @@ class Drop():
         return listBricks
 
     def breaked(self, listBricks):
+        self.score = str(int(self.score)+(((self.grid[listBricks[0]]-1)*10)*len(listBricks))*self.nbStep)
         self.stopBreak = False
         newBrick = self.grid[listBricks[0]] + 1
         self.listNewBricks.append((listBricks[0][0],listBricks[0][1],newBrick))

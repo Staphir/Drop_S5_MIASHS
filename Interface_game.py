@@ -26,6 +26,7 @@ class Interface_game(Win):
         self.loop()
 
     def show(self):
+        self.score['text'] = self.drop.score
         for r in range(self.drop.rows):
             for c in range(self.drop.cols):
                 self.frameGrid[r][c]['bg'] = self.colors[self.drop.grid[r,c]]
@@ -67,5 +68,6 @@ class Interface_game(Win):
         if not self.drop.endGame():
             self.drop.newBricks()
         self.show()
+        self.drop.nbStep = 0
         self.drop.stopBreak = False
     #!!! Dialogue entre interface et Drop pendant l'ensemble du break (surtout si plusieurs break) !!!
