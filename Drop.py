@@ -15,6 +15,7 @@ class Drop():
         self.ligne = True
         self.score = '0'
         self.stopBreak = False
+        self.listNewBricks = []
 
         #Création de la grille vide
         self.grid = grid(self.rows, self.cols, 0)
@@ -49,42 +50,51 @@ class Drop():
                     self.grid[i,j-1] = 0
 
     def fall(self):
-        N = self.nbBricks
-        debut = False
-        col = 0
-
-        while debut == False:
-            if self.grid[N-1,col] != 0:
-                debut = True
-                break
-            col += 1
-
-        if self.ligne == True:
-            for i in range(col, col+self.nbBricks):
-                j=self.nbBricks+1
-                while j < self.rows:
-                    if self.grid[j,i] > 1:
-                        self.grid[j-1,i] = self.grid[self.nbBricks-1,i]
-                        self.grid[self.nbBricks-1,i] = 0
-                        break
-                    else:
-                        j += 1
-                if j == self.rows:
-                    self.grid[j-1, i] = self.grid[self.nbBricks-1, i]
-                    self.grid[self.nbBricks-1, i] = 0
-        else:
-            for i in reversed(range(self.nbBricks)):
-                j=self.nbBricks+1
-                while j < self.rows:
-                    if self.grid[j,col] > 1:
-                        self.grid[j-1,col] = self.grid[i,col]
-                        self.grid[i,col] = 0
-                        break
-                    else:
-                        j += 1
-                if j == self.rows:
-                    self.grid[self.rows-1, col] = self.grid[i, col]
-                    self.grid[i, col] = 0
+        for debut in range(self.nbBricks-1,-1,-1):
+            for x in range(debut,self.rows-1):
+                for y in range(0,self.cols):
+                    if self.grid[x,y] > 1 and self.grid[x+1,y] in (1,0):
+                        self.grid[x+1,y] = self.grid[x,y]
+                        if x <= self.nbBricks:
+                            self.grid[x,y] = 0
+                        else:
+                            self.grid[x,y] = 1
+        # N = self.nbBricks
+        # debut = False
+        # col = 0
+        #
+        # while debut == False:
+        #     if self.grid[N-1,col] != 0:
+        #         debut = True
+        #         break
+        #     col += 1
+        #
+        # if self.ligne == True:
+        #     for i in range(col, col+self.nbBricks):
+        #         j=self.nbBricks+1
+        #         while j < self.rows:
+        #             if self.grid[j,i] > 1:
+        #                 self.grid[j-1,i] = self.grid[self.nbBricks-1,i]
+        #                 self.grid[self.nbBricks-1,i] = 0
+        #                 break
+        #             else:
+        #                 j += 1
+        #         if j == self.rows:
+        #             self.grid[j-1, i] = self.grid[self.nbBricks-1, i]
+        #             self.grid[self.nbBricks-1, i] = 0
+        # else:
+        #     for i in reversed(range(self.nbBricks)):
+        #         j=self.nbBricks+1
+        #         while j < self.rows:
+        #             if self.grid[j,col] > 1:
+        #                 self.grid[j-1,col] = self.grid[i,col]
+        #                 self.grid[i,col] = 0
+        #                 break
+        #             else:
+        #                 j += 1
+        #         if j == self.rows:
+        #             self.grid[self.rows-1, col] = self.grid[i, col]
+        #             self.grid[i, col] = 0
 
     def rotate(self):
         N = self.nbBricks
@@ -114,14 +124,18 @@ class Drop():
 
     # ATENTION : 1) le plus bas --- 2) le plus à gauche
     def step(self):
+        print("step")
         self.stopBreak = True
+        self.listNewBricks = []
         for x in range(self.rows-1,0,-1):
             for y in range(0,self.cols):
                 listBricks = []
                 listBricks = self.lookBricks(listBricks,(x,y))
                 if len(listBricks) > 2:
+                    print(listBricks)
                     self.breaked(listBricks)
-                    self.gravity()
+        self.addNewBricks()
+        self.gravity()
 
     def lookBricks(self, listBricks, coordonnees):
         x = coordonnees[0]
@@ -137,29 +151,49 @@ class Drop():
 
     def breaked(self, listBricks):
         self.stopBreak = False
-        self.grid[listBricks[0]] += 1
-        if self.grid[listBricks[0]] > self.level:
+        newBrick = self.grid[listBricks[0]] + 1
+        self.listNewBricks.append((listBricks[0][0],listBricks[0][1],newBrick))
+        if newBrick > self.level:
                 self.level += 1
-        for i in range(1,len(listBricks)):
+        for i in range(0,len(listBricks)):
             if listBricks[i][0] <= self.nbBricks:
                 self.grid[listBricks[i]] = 0
             else:
                 self.grid[listBricks[i]] = 1
 
+    def addNewBricks(self):
+        for tuple in self.listNewBricks:
+            self.grid[tuple[0],tuple[1]] = tuple[2]
+
     def gravity(self):
-        for x in range(self.rows-1,self.nbBricks,-1):
-            for y in range(0, self.cols):
-                x_tmp = x
-                while x_tmp < self.rows:
-                    if self.grid[x_tmp-1,y] > 1:
-                        self.grid[x_tmp,y] = self.grid[x_tmp-1,y]
-                        self.grid[x_tmp-1,y] = 1
-                        break
+        for x in range(0,self.rows-1):
+            for y in range(0,self.cols):
+                if self.grid[x,y] > 1 and self.grid[x+1,y] in (1,0):
+                    self.grid[x+1,y] = self.grid[x,y]
+                    if x <= self.nbBricks:
+                        self.grid[x,y] = 0
                     else:
-                        x_tmp += 1
+                        self.grid[x,y] = 1
+
+        # for x in range(self.rows-1,1,-1):
+        #     for y in range(0, self.cols):
+        #         x_tmp = x
+        #         while x_tmp < self.rows:
+        #             if self.grid[x_tmp-1,y] > 1 and self.grid[x_tmp,y] in (1,0):
+        #                 empty_tmp = self.grid[x_tmp,y]
+        #                 self.grid[x_tmp,y] = self.grid[x_tmp-1,y]
+        #                 self.grid[x_tmp-1,y] = empty_tmp
+        #                 break
+        #             else:
+        #                 x_tmp += 1
                 # if x_tmp == self.rows:
                 #     self.grid[self.rows-1, col] = self.grid[i, col]
                 #     self.grid[i, col] = 0
 
     def endGame(self):
-        pass
+        c = 0
+        for i in range(self.grid.col): c += self.grid[self.nbBricks,i]
+        if c == 0:
+            return False
+        else:
+            return True
