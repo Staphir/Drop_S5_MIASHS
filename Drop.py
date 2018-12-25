@@ -6,7 +6,7 @@ import random
 
 class Drop():
 
-    def __init__(self, rows=6, cols=5, nbNewBricks=3):
+    def __init__(self, rows=6, cols=5, nbNewBricks=3, name='Unknow'):
         self.rows = rows
         self.cols = cols
         self.nbBricks = nbNewBricks
@@ -17,6 +17,7 @@ class Drop():
         self.stopBreak = False
         self.listNewBricks = []
         self.nbStep = 0
+        self.name = name
 
         #Création de la grille vide
         self.grid = grid(self.rows, self.cols, 0)
@@ -94,7 +95,6 @@ class Drop():
     # ATENTION : 1) le plus bas --- 2) le plus à gauche
     def step(self):
         self.nbStep += 1
-        print("step")
         self.stopBreak = True
         self.listNewBricks = []
         for x in range(self.rows-1,0,-1):
@@ -102,7 +102,6 @@ class Drop():
                 listBricks = []
                 listBricks = self.lookBricks(listBricks,(x,y))
                 if len(listBricks) > 2:
-                    print(listBricks)
                     self.breaked(listBricks)
         self.addNewBricks()
         self.fall()
@@ -142,4 +141,39 @@ class Drop():
         if c == 0:
             return False
         else:
+            self.saveScore()
             return True
+
+    def saveScore(self):
+        name_file = "save.txt"
+        new_file = ""
+        list_scores = []
+        # Lecture scores
+        try:
+            r = open(name_file, "r")
+        except IOError:
+            print(name_file, ": fichier inconnu")
+            return
+        try:
+            list_scores.append((self.score,self.name))
+            for line in r:
+                table = line.split(";")
+                list_scores.append((table[1],table[0]))
+            sorted(list_scores,reverse=True)
+            r.close()
+        except ValueError:
+            print("échec import txt")
+        # Ecriture scores
+        try:
+            w = open(name_file, "w")
+        except IOError:
+            print(name_file, ": fichier inconnu")
+            return
+        try:
+            for i in range(0,len(list_scores)-1):
+                new_file += list_scores[i][1] + ';' + list_scores[i][0] + ';' + '\n'
+            new_file += list_scores[len(list_scores)-1][1] + ';' + list_scores[len(list_scores)-1][0]
+            w.write(new_file)
+            w.close()
+        except ValueError:
+            print("échec écriture txt")

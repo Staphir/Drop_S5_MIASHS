@@ -1,0 +1,6 @@
+Unknow;2370;
+Unknow;1570;
+Unknow;1130;
+Unknow;870;
+Sauce;505;
+Unknow;260

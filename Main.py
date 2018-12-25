@@ -12,6 +12,9 @@ from Grid import *
 
 # ==============================================================================
 if __name__ == "__main__":
+  # t = [(2,'r'),(4,'d'),(1,'k'),(2,'c')]
+  # t.sort(reverse=True)
+  # print(t)
   # g = grid(5,3,0)
   # for i in range(g.col): print(g[1,i])
   # # print(g)
