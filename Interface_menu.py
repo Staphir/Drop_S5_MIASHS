@@ -17,14 +17,14 @@ class Interface_menu(Win):
         self.varSize = size
         self.rows = rows
         self.cols = cols
-        self.name = 'Unknow'
+        self.name = StringVar(self,'Unknow')
 
         Topframe = Frame(self, fold = 1)
         Label(Topframe, text="BIENVENUE SUR LE DROP", font='Cambria 30', bg="#cde3f2", relief ="groove")
 
         Midframe = Frame(self, fold = 2)
         Label(Midframe, text="Tout d'abord, entrez votre nom de joueur", font='Cambria 14', width="30", bg="#cde3f2", relief ="groove")
-        self.name = Entry(Midframe, font='Cambria 14', width="15", bg="#cde3f2")
+        self.nameEntry = Entry(Midframe,textvariable=self.name, font='Cambria 14', width="15", bg="#cde3f2")
         #Il faut que le nom soit enregistré quand on lance le jeu (et aussi sur les scores ?)
         #message d'erreur si il n'y a pas de pseudo
 
@@ -52,9 +52,8 @@ class Interface_menu(Win):
         self.scores = Button(Bottomframe, text='Esprit compétitif ? Consultez le tableau des scores',  font='Cambria 10', width="9", bg="#cde3f2", command = Interface_scores)
         # tableau des scores dans un fichier texte ou excel ? -> texte (save.txt)
         self.regles = Button(Bottomframe, text='Besoin d\'aide ? Consultez les règles du jeu',  font='Cambria 10', width="9", bg="#cde3f2", command = Regles)
-        # ouvre une fenetre ou les regles s'affichent tout simplement 
-    
-        self.loop() 
+        # ouvre une fenetre ou les regles s'affichent tout simplement
+        self.loop()
 
         # def play(self): 
 
@@ -80,7 +79,9 @@ class Interface_menu(Win):
         # # deuxieme ligne troisieme colonne : initiatisation d'une brique colorée a empiler
 
     def create_drop(self):
-        #if name remplie avec aucun caractère spécial sinon self.name = 'Unknow'
+        self.name = self.nameEntry.get()
+        if self.name == '' or not self.name.isalnum():
+            self.name = 'Unknow'
         Interface_game(self.rows,self.cols,self.nbBricks,self.varSize,self.name)
 
 
