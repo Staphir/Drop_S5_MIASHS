@@ -8,6 +8,7 @@ class Interface_game(Win):
 
     def __init__(self,rows=6, cols=5, nbNewBricks=3, size=64, name = 'Unknow'):
         Win.__init__(self, title='DROP', bg=('#116269'),op=10,key=self.event)
+        print(name)
         rows += nbNewBricks+1
         self.end = False
         self.txtScore = '0'

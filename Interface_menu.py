@@ -17,6 +17,7 @@ class Interface_menu(Win):
         self.varSize = size
         self.rows = rows
         self.cols = cols
+        self.name = 'Unknow'
 
         Topframe = Frame(self, fold = 1)
         Label(Topframe, text="BIENVENUE SUR LE DROP", font='Cambria 30', bg="#cde3f2", relief ="groove")
@@ -79,7 +80,8 @@ class Interface_menu(Win):
         # # deuxieme ligne troisieme colonne : initiatisation d'une brique colorée a empiler
 
     def create_drop(self):
-        Interface_game(self.rows, self.cols, self.nbBricks, self.varSize)
+        #if name remplie avec aucun caractère spécial sinon self.name = 'Unknow'
+        Interface_game(self.rows,self.cols,self.nbBricks,self.varSize,self.name)
 
 
 class Regles(Win):
