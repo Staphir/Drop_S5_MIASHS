@@ -6,7 +6,7 @@ from time import sleep
 
 class Interface_game(Win):
 
-    def __init__(self,rows=6, cols=5, nbNewBricks=3, size=64):
+    def __init__(self,rows=6, cols=5, nbNewBricks=3, size=64, name = 'Unknow'):
         Win.__init__(self, title='DROP', bg=('#116269'),op=10,key=self.event)
         rows += nbNewBricks+1
         self.end = False
@@ -14,16 +14,20 @@ class Interface_game(Win):
         self.bg = '#116269'
         self.colors = ['#116269','#041725', '#C34223', '#F38D1F', '#FFED90', '#28FB57', '#00FFD2', '#428BFF', '#4007C4', '#000FFF', '#000000']
         self.score = Label(self, text=self.txtScore, font='Cambria 14', width="2", bg=self.colors[0])
+        self.name = name
 
-        self.reset = Button(self, text='Reset', font='Cambria 11', width="15", height='1', command=self.resetGrid)
-        self.regles = Button(self, text='Règles', font='Cambria 11', width="15", height='1', command=self.rules)
+        self.frameButtonsUp = Frame(self,op=10)
+
+        self.reset = Button(self.frameButtonsUp, text='Reset', font='Cambria 11', width="5", height='1', command=self.resetGrid)
+        self.regles = Button(self.frameButtonsUp, text='Règles', font='Cambria 11', width="5", height='1', command=self.rules)
+        self.ButtonScores = Button(self.frameButtonsUp, text='Scores', font='Cambria 11', width="5", height='1', command=self.scores)
         self.txtend = Label(self, text='Perdu', font='Cambria 20', width="15", fg=self.bg)
 
         self.frameGrid = Frame(self,fold=cols,op=3)
         for n in range(cols * rows): Brick(self.frameGrid, width=size, height=size, bd=0)
 
         self.returnMenu = Button(self, text='Menu', font='Cambria 11', width="15", height='1', command=self.returnMenu)
-        self.drop = Drop(rows,cols,nbNewBricks)
+        self.drop = Drop(rows,cols,nbNewBricks,self.name)
 
         self.resetGrid()
 
@@ -46,6 +50,9 @@ class Interface_game(Win):
         pass
 
     def rules(self):
+        pass
+
+    def scores(self):
         interface = Interface_scores()
 
     def event(self, widget, code, mods):

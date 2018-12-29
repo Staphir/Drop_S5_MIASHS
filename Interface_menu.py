@@ -1,5 +1,7 @@
 from ezTK import *
 from Drop import *
+from Interface_game import *
+from Interface_scores import *
 # ------------------------------------------------------------------------------
 
 #fonction de création de la grille de Drop par-dessus l'interface menu 
@@ -12,7 +14,7 @@ class Interface_menu(Win):
         # trouver comment donner une taille fixe à la fenêtre 
 
         self.nbBricks = nbNewBricks
-        rows += self.nbBricks + 1
+        self.varSize = size
         self.rows = rows
         self.cols = cols
 
@@ -40,15 +42,15 @@ class Interface_menu(Win):
         liste2.insert(3, "Prout")
         liste2.insert(4, "Prout")
 
-        self.play = Button(Midframe, text="Commencer à jouer",  font='Cambria 14', width="9", bg="#cde3f2", command = Interface_game)
+        self.play = Button(Midframe, text="Commencer à jouer",  font='Cambria 14', width="9", bg="#cde3f2", command = self.create_drop)
         #Il faut que le paramètre sélectionné soit enregistré quand on lance le jeu (et aussi sur les scores ?)
         # quand on débute le jeu, on ouvre l'interface de jeu
         # si tous les paramètres de la grille sont pas remplis, message d'erreur ou utilisation de paramètres par défaut ? 
 
         Bottomframe = Frame(self, fold = 2)
-        self.scores = Button(Bottomframe, text='Esprit compétitif ? Consultez le tableau des scores',  font='Cambria 10', width="9", bg="#cde3f2", command = tableaudesscores)
-        # tableau des scores dans un ficiher texte ou excel ? 
-        self.regles = Button(Bottomframe, text='Besoin d\'aide ? Consultez les règles du jeu',  font='Cambria 10', width="9", bg="#cde3f2", command = fenetreregles)
+        self.scores = Button(Bottomframe, text='Esprit compétitif ? Consultez le tableau des scores',  font='Cambria 10', width="9", bg="#cde3f2", command = Interface_scores)
+        # tableau des scores dans un fichier texte ou excel ? -> texte (save.txt)
+        self.regles = Button(Bottomframe, text='Besoin d\'aide ? Consultez les règles du jeu',  font='Cambria 10', width="9", bg="#cde3f2", command = Regles)
         # ouvre une fenetre ou les regles s'affichent tout simplement 
     
         self.loop() 
@@ -76,9 +78,15 @@ class Interface_menu(Win):
         # # self.gridBricks[self.nbBricks-1][2]['bg'] = self.colors[3]
         # # deuxieme ligne troisieme colonne : initiatisation d'une brique colorée a empiler
 
-        def create_drop() :
-            pass
+    def create_drop(self):
+        Interface_game(self.rows, self.cols, self.nbBricks, self.varSize)
 
+
+class Regles(Win):
+    def __init__(self):
+        Win.__init__(self)
+        regles = "Ecriture des règles" # A rédiger
+        self.txtend = Label(self, text=regles, font='Cambria 20', width="15", fg='#000000')
 
 if __name__ == "__main__":
   # t = [(2,'r'),(4,'d'),(1,'k'),(2,'c')]

@@ -24,6 +24,7 @@ class Drop():
 
     def reset(self):
         self.level = 2
+        self.score = '0'
         for r in range(self.rows):
             for c in range(self.cols):
                 if r < self.nbBricks + 1:
