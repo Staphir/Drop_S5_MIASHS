@@ -17,33 +17,33 @@ class Interface_menu(Win):
         self.varSize = size
         self.rows = rows
         self.cols = cols
-        self.name = StringVar(self,'Unknow')
+        self.name = StringVar(self,'Anonyme')
 
         Topframe = Frame(self, fold = 1)
-        Label(Topframe, text="BIENVENUE SUR LE DROP", font='Cambria 30', bg="#cde3f2", relief ="groove")
+        Label(Topframe, text="BIENVENUE SUR LE DROP", font='Cambria 30', bg="#cde3f2", relief ="groove", op = 10)
 
-        Midframe = Frame(self, fold = 2)
-        Label(Midframe, text="Tout d'abord, entrez votre nom de joueur", font='Cambria 14', width="30", bg="#cde3f2", relief ="groove")
-        self.nameEntry = Entry(Midframe,textvariable=self.name, font='Cambria 14', width="15", bg="#cde3f2")
+        Midframe = Frame(self, fold = 2, height = 9)
+        Label(Midframe, text="Tout d'abord, entrez votre nom de joueur", font='Cambria 13', width="30", bg="#cde3f2", relief ="groove")
+        self.nameEntry = Entry(Midframe,textvariable=self.name, font='Cambria 13', width="15", bg="#cde3f2")
         #Il faut que le nom soit enregistré quand on lance le jeu (et aussi sur les scores ?)
         #message d'erreur si il n'y a pas de pseudo
 
-        self.gridSize = Label(Midframe, text="Sélectionnez le format de grille avec lequel vous souhaitez jouer", font='Cambria 14', width="9", bg="#cde3f2")
+        self.gridSize = Label(Midframe, text="Sélectionnez le format de grille avec lequel vous souhaitez jouer", font='Cambria 13', width="9", bg="#cde3f2")
         liste = Listbox(Midframe)
-        liste.insert(1, "Prout (défaut)")
-        liste.insert(2, "Prout")
-        liste.insert(3, "Prout")
-        liste.insert(4, "Prout")
+        liste.insert(1, "8 lignes, 5 colonnes (défaut)")
+        liste.insert(2, "16 lignes, 10 colonnes (maxi)")
+        liste.insert(3, "8 lignes, 8 colonnes (carré)")
+        liste.insert(4, "6 lignes, 3 colonnes (mini)")
         #Il faut que le paramètre sélectionné soit enregistré quand on lance le jeu (et aussi sur les scores ?)
+        #POURQUOI LA LISTE DEROULANTE S'AFFICHE PAS BIEN FJPOEIZOGBI
 
-        self.newBricks = Label(Midframe, text="Combien de briques voulez-vous gérer par tour ?",  font='Cambria 14', width="9", bg="#cde3f2" )
+        self.newBricks = Label(Midframe, text="Combien de briques voulez-vous gérer par tour ?",  font='Cambria 13', width="9", bg="#cde3f2" )
         liste2 = Listbox(Midframe)
-        liste2.insert(1, "Prout (défaut)")
-        liste2.insert(2, "Prout")
-        liste2.insert(3, "Prout")
-        liste2.insert(4, "Prout")
+        liste2.insert(1, "Deux (défaut)")
+        liste2.insert(2, "Trois")
+        liste2.insert(3, "Quatre")
 
-        self.play = Button(Midframe, text="Commencer à jouer",  font='Cambria 14', width="9", bg="#cde3f2", command = self.create_drop)
+        self.play = Button(Midframe, text="Commencer à jouer",  font='Cambria 13', width="9", bg="#cde3f2", command = self.create_drop)
         #Il faut que le paramètre sélectionné soit enregistré quand on lance le jeu (et aussi sur les scores ?)
         # quand on débute le jeu, on ouvre l'interface de jeu
         # si tous les paramètres de la grille sont pas remplis, message d'erreur ou utilisation de paramètres par défaut ? 
@@ -87,7 +87,7 @@ class Interface_menu(Win):
 
 class Regles(Win):
     def __init__(self):
-        Win.__init__(self)
+        Win.__init__(self) 
         regles = "Ecriture des règles" # A rédiger
         self.txtend = Label(self, text=regles, font='Cambria 20', width="15", fg='#000000')
 
@@ -100,4 +100,3 @@ if __name__ == "__main__":
   # # print(g)
   Interface_menu()
 #Interface_game(6,5,3)
-
