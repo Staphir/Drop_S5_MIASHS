@@ -1,0 +1,13 @@
+Le but du jeu est de former des assemblages d'au moins 3 blocs 
+adjacents de la même couleur. Chaque fois qu'un tel assemblage 
+est obtenu, il est remplacé par un bloc de plus haut niveau, 
+caractérisé par une nouvelle couleur. 
+
+Pour arriver à cela, vous devez réfléchir à la façon dont vous 
+disposez les blocs dans la grille de jeu. Vous pouvez les
+faire pivoter ou les décaler sur toute la largeur de la grille. 
+
+Votre score est calculé en fonction de la taille des assemblages 
+et de la couleur des blocs assemblés. Alors ne lésinez pas
+sur la quantité... Mais n'oubliez pas que les blocs de haut 
+niveau sont plus longs à obtenir ! 
