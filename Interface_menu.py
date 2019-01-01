@@ -2,9 +2,17 @@ from ezTK import *
 from Drop import *
 from Interface_game import *
 from Interface_scores import *
+from Tkinter import *
 # ------------------------------------------------------------------------------
 
 #fonction de création de la grille de Drop par-dessus l'interface menu 
+
+root=Tk()
+root.configure(width=200,height=100)
+root.mainloop()
+#Je ne sais pas encore exactement comment l'utiliser, mais normalement c'est fait pour redimensionner la taille
+#de la fenêtre comme on veut avec Tkinter
+# Voilà le lien si tu veux : https://www.developpez.net/forums/d28285/autres-langages/python-zope/gui/tkinter/tkinter/
 
 class Interface_menu(Win):
 
@@ -23,12 +31,12 @@ class Interface_menu(Win):
         Label(Topframe, text="BIENVENUE SUR LE DROP", font='Cambria 30', bg="#cde3f2", relief ="groove", op = 10)
 
         Midframe = Frame(self, fold = 2, height = 9)
-        Label(Midframe, text="Tout d'abord, entrez votre nom de joueur", font='Cambria 13', width="30", bg="#cde3f2", relief ="groove")
+        Label(Midframe, text="Tout d'abord, entrez votre nom de joueur /n", font='Cambria 13', width="30", bg="#cde3f2", relief ="groove")
         self.nameEntry = Entry(Midframe,textvariable=self.name, font='Cambria 13', width="15", bg="#cde3f2")
         #Il faut que le nom soit enregistré quand on lance le jeu (et aussi sur les scores ?)
         #message d'erreur si il n'y a pas de pseudo
 
-        self.gridSize = Label(Midframe, text="Sélectionnez le format de grille avec lequel vous souhaitez jouer", font='Cambria 13', width="9", bg="#cde3f2")
+        self.gridSize = Label(Midframe, text="Sélectionnez le format de grille avec lequel vous souhaitez jouer /n", font='Cambria 13', width="9", bg="#cde3f2")
         liste = Listbox(Midframe)
         liste.insert(1, "8 lignes, 5 colonnes (défaut)")
         liste.insert(2, "16 lignes, 10 colonnes (maxi)")
@@ -88,7 +96,14 @@ class Interface_menu(Win):
 class Regles(Win):
     def __init__(self):
         Win.__init__(self) 
-        regles = "Ecriture des règles" # A rédiger
+        regles = "Le but du jeu est de former des assemblages d'au moins 3 blocs /n adjacents de la même couleur. Chaque fois qu'un tel assemblage /n"
+        "est obtenu, il est remplacé par un bloc de plus haut niveau, /n caractérisé par une nouvelle couleur. /n"
+        "Pour arriver à cela, vous devez réfléchir à la façon dont vous /n disposez les blocs dans la grille de jeu. Vous pouvez les /n"
+        "faire pivoter ou les décaler sur toute la largeur de la grille. /n"
+        "/n"
+        "Votre score est calculé en fonction de la taille des assemblages /n et de la couleur des blocs assemblés. Alors ne lésinez pas /n"
+        "sur la quantité... Mais n'oubliez pas que les blocs de haut /n"
+        "niveau sont plus longs à obtenir ! " 
         self.txtend = Label(self, text=regles, font='Cambria 20', width="15", fg='#000000')
 
 if __name__ == "__main__":
