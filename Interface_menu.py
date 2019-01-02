@@ -2,21 +2,21 @@ from ezTK import *
 from Drop import *
 from Interface_game import *
 from Interface_scores import *
-from Tkinter import *
+from Interface_regles import *
+# from tkinter import *
 # ------------------------------------------------------------------------------
 
 #fonction de création de la grille de Drop par-dessus l'interface menu 
-
-root=Tk()
-root.configure(width=200,height=100)
-root.mainloop()
+# root=Tk()
+# root.configure(width=200,height=100)
+# root.mainloop()
 #Je ne sais pas encore exactement comment l'utiliser, mais normalement c'est fait pour redimensionner la taille
 #de la fenêtre comme on veut avec Tkinter
 # Voilà le lien si tu veux : https://www.developpez.net/forums/d28285/autres-langages/python-zope/gui/tkinter/tkinter/
 
 class Interface_menu(Win):
 
-    def __init__(self, rows=8, cols=5, size=64, nbNewBricks=3):
+    def __init__(self, rows=8, cols=5, size=64, nbNewBricks=2):
 
         Win.__init__(self, title='DROP', bg=('#cde3f2'),op=10)
         # trouver comment donner une taille fixe à la fenêtre 
@@ -28,28 +28,28 @@ class Interface_menu(Win):
         self.name = StringVar(self,'Anonyme')
 
         Topframe = Frame(self, fold = 1)
-        Label(Topframe, text="BIENVENUE SUR LE DROP", font='Cambria 30', bg="#cde3f2", relief ="groove", op = 10)
+        Label(Topframe, text="BIENVENUE SUR LE DROP", font='Cambria 30', bg="#cde3f2", relief ="groove")
 
-        Midframe = Frame(self, fold = 2, height = 9)
-        Label(Midframe, text="Tout d'abord, entrez votre nom de joueur /n", font='Cambria 13', width="30", bg="#cde3f2", relief ="groove")
+        Midframe = Frame(self, fold = 2)
+        Label(Midframe, text="Tout d'abord, entrez votre nom de joueur \n", font='Cambria 13', width="30", bg="#cde3f2", relief ="groove")
         self.nameEntry = Entry(Midframe,textvariable=self.name, font='Cambria 13', width="15", bg="#cde3f2")
         #Il faut que le nom soit enregistré quand on lance le jeu (et aussi sur les scores ?)
         #message d'erreur si il n'y a pas de pseudo
 
-        self.gridSize = Label(Midframe, text="Sélectionnez le format de grille avec lequel vous souhaitez jouer /n", font='Cambria 13', width="9", bg="#cde3f2")
-        liste = Listbox(Midframe)
-        liste.insert(1, "8 lignes, 5 colonnes (défaut)")
-        liste.insert(2, "16 lignes, 10 colonnes (maxi)")
-        liste.insert(3, "8 lignes, 8 colonnes (carré)")
-        liste.insert(4, "6 lignes, 3 colonnes (mini)")
+        self.gridSize = Label(Midframe, text="Sélectionnez le format de grille avec lequel vous souhaitez jouer \n", font='Cambria 13', width="9", bg="#cde3f2")
+        self.liste = Listbox(Midframe,selectmode='SINGLE')
+        self.liste.insert(1, "8 lignes, 5 colonnes (défaut)")
+        self.liste.insert(2, "16 lignes, 10 colonnes (maxi)")
+        self.liste.insert(3, "8 lignes, 8 colonnes (carré)")
+        self.liste.insert(4, "6 lignes, 3 colonnes (mini)")
         #Il faut que le paramètre sélectionné soit enregistré quand on lance le jeu (et aussi sur les scores ?)
         #POURQUOI LA LISTE DEROULANTE S'AFFICHE PAS BIEN FJPOEIZOGBI
 
         self.newBricks = Label(Midframe, text="Combien de briques voulez-vous gérer par tour ?",  font='Cambria 13', width="9", bg="#cde3f2" )
-        liste2 = Listbox(Midframe)
-        liste2.insert(1, "Deux (défaut)")
-        liste2.insert(2, "Trois")
-        liste2.insert(3, "Quatre")
+        self.liste2 = Listbox(Midframe,selectmode='SINGLE')
+        self.liste2.insert(2, "Deux (défaut)")
+        self.liste2.insert(3, "Trois")
+        self.liste2.insert(4, "Quatre")
 
         self.play = Button(Midframe, text="Commencer à jouer",  font='Cambria 13', width="9", bg="#cde3f2", command = self.create_drop)
         #Il faut que le paramètre sélectionné soit enregistré quand on lance le jeu (et aussi sur les scores ?)
@@ -86,25 +86,26 @@ class Interface_menu(Win):
         # # self.gridBricks[self.nbBricks-1][2]['bg'] = self.colors[3]
         # # deuxieme ligne troisieme colonne : initiatisation d'une brique colorée a empiler
 
+    def rows_and_cols_selected(self):
+        if self.liste.curselection()[0] == 0:
+            self.rows = 8
+            self.cols = 5
+        if self.liste.curselection()[0] == 1:
+            self.rows, self.cols = 16,10
+        if self.liste.curselection()[0] == 2:
+            self.rows, self.cols = 8,8
+        if self.liste.curselection()[0] == 3:
+            self.rows, self.cols = 6,3
+
     def create_drop(self):
+        # self.rows_and_cols_selected()
+        if self.liste2.curselection():
+            self.nbBricks = self.liste2.curselection()[0]+2
         self.name = self.nameEntry.get()
         if self.name == '' or not self.name.isalnum():
             self.name = 'Unknow'
         Interface_game(self.rows,self.cols,self.nbBricks,self.varSize,self.name)
 
-
-class Regles(Win):
-    def __init__(self):
-        Win.__init__(self) 
-        regles = "Le but du jeu est de former des assemblages d'au moins 3 blocs /n adjacents de la même couleur. Chaque fois qu'un tel assemblage /n"
-        "est obtenu, il est remplacé par un bloc de plus haut niveau, /n caractérisé par une nouvelle couleur. /n"
-        "Pour arriver à cela, vous devez réfléchir à la façon dont vous /n disposez les blocs dans la grille de jeu. Vous pouvez les /n"
-        "faire pivoter ou les décaler sur toute la largeur de la grille. /n"
-        "/n"
-        "Votre score est calculé en fonction de la taille des assemblages /n et de la couleur des blocs assemblés. Alors ne lésinez pas /n"
-        "sur la quantité... Mais n'oubliez pas que les blocs de haut /n"
-        "niveau sont plus longs à obtenir ! " 
-        self.txtend = Label(self, text=regles, font='Cambria 20', width="15", fg='#000000')
 
 if __name__ == "__main__":
   # t = [(2,'r'),(4,'d'),(1,'k'),(2,'c')]

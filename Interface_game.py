@@ -1,12 +1,13 @@
 from ezTK import *
 from Interface_scores import *
+from Interface_regles import *
 from Drop import *
 from time import sleep
 # ------------------------------------------------------------------------------
 
 class Interface_game(Win):
 
-    def __init__(self,rows=6, cols=5, nbNewBricks=3, size=64, name = 'Unknow'):
+    def __init__(self,rows=8, cols=5, nbNewBricks=2, size=64, name = 'Unknow'):
         Win.__init__(self, title='DROP', bg=('#116269'),op=10,key=self.event)
         print(name)
         rows += nbNewBricks+1
@@ -20,7 +21,7 @@ class Interface_game(Win):
         self.frameButtonsUp = Frame(self,op=10)
 
         self.reset = Button(self.frameButtonsUp, text='Reset', font='Cambria 11', width="5", height='1', command=self.resetGrid)
-        self.regles = Button(self.frameButtonsUp, text='Règles', font='Cambria 11', width="5", height='1', command=self.rules)
+        self.regles = Button(self.frameButtonsUp, text='Règles', font='Cambria 11', width="5", height='1', command=Regles)
         self.ButtonScores = Button(self.frameButtonsUp, text='Scores', font='Cambria 11', width="5", height='1', command=self.scores)
         self.txtend = Label(self, text='Perdu', font='Cambria 20', width="15", fg=self.bg)
 
@@ -48,10 +49,7 @@ class Interface_game(Win):
         self.show()
 
     def returnMenu(self):
-        pass
-
-    def rules(self):
-        pass
+        self.exit()
 
     def scores(self):
         interface = Interface_scores()

@@ -19,6 +19,6 @@ if __name__ == "__main__":
   # for i in range(g.col): print(g[1,i])
   # # print(g)
   # Interface_game(5,6,3)
-  Interface_menu(5,6,64,3)
+  Interface_menu(8,8,53,2)
   #Interface_game(6,5,3)
 # ==============================================================================
