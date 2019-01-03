@@ -12,13 +12,5 @@ from Grid import *
 
 # ==============================================================================
 if __name__ == "__main__":
-  # t = [(2,'r'),(4,'d'),(1,'k'),(2,'c')]
-  # t.sort(reverse=True)
-  # print(t)
-  # g = grid(5,3,0)
-  # for i in range(g.col): print(g[1,i])
-  # # print(g)
-  # Interface_game(5,6,3)
-  Interface_menu(8,8,53,2)
-  #Interface_game(6,5,3)
+  Interface_menu(8,5,54,2)
 # ==============================================================================

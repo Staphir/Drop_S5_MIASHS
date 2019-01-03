@@ -235,8 +235,9 @@ class Spinbox(tk.Spinbox):
   """..."""
   # ----------------------------------------------------------------------------
   def __init__(self, master, grow=True, **props):
-    _merge(props, bg=master.bg, fg=master.fg, anchor=master.anchor,
-           font=master.font)
+    _merge(props, bg=master.bg, fg=master.fg,
+           # anchor=master.anchor
+           font=master.font,)
     tk.Spinbox.__init__(self, master, **props); master.win.pack(self, grow)
 # ==============================================================================
 class Canvas(tk.Canvas):

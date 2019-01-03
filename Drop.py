@@ -106,6 +106,7 @@ class Drop():
                     self.breaked(listBricks)
         self.addNewBricks()
         self.fall()
+        self.fall()
 
     def lookBricks(self, listBricks, coordonnees):
         x = coordonnees[0]
@@ -159,8 +160,14 @@ class Drop():
             list_scores.append((self.score,self.name))
             for line in r:
                 table = line.split(";")
-                list_scores.append((table[1],table[0]))
-            sorted(list_scores,reverse=True)
+                i=0
+                while i<len(list_scores) and int(table[1])<=int(list_scores[i][0]):
+                    i+=1
+                if i == len(list_scores):
+                    list_scores.append((table[1], table[0]))
+                else:
+                    list_scores.insert(i, (table[1], table[0]))
+
             r.close()
         except ValueError:
             print("échec import txt")
