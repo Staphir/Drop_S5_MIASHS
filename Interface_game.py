@@ -16,19 +16,27 @@ class Interface_game(Win):
         self.colors = ['#116269','#041725', '#C34223', '#F38D1F', '#FFED90', '#28FB57', '#00FFD2', '#428BFF', '#4007C4', '#000FFF', '#000000']
         self.score = Label(self, text=self.txtScore, font='Cambria 14', width="2", bg=self.colors[0])
         self.name = name
+        #Paramètres de base de l'interface de jeu
 
         self.frameButtonsUp = Frame(self,op=10)
 
         self.reset = Button(self.frameButtonsUp, text='Reset', font='Cambria 11', width="5", height='1', command=self.resetGrid)
+        #Recommencer une partie
         self.regles = Button(self.frameButtonsUp, text='Règles', font='Cambria 11', width="5", height='1', command=Regles)
+        #Affiche les règles dans une nouvelle fenêtre
         self.ButtonScores = Button(self.frameButtonsUp, text='Scores', font='Cambria 11', width="5", height='1', command=self.scores)
+        #Affiche les 10 meilleurs scores
         self.txtend = Label(self, text='Perdu', font='Cambria 20', width="15", fg=self.bg)
+        #Echec du joueur
 
         self.frameGrid = Frame(self,fold=cols,op=3)
         for n in range(cols * rows): Brick(self.frameGrid, width=size, height=size, bd=0)
+        #Création de la grille de jeu
 
         self.returnMenu = Button(self, text='Menu', font='Cambria 11', width="15", height='1', command=self.returnMenu)
+        #Retour au menu
         self.drop = Drop(rows,cols,nbNewBricks,self.name)
+        #Appel de la classe Drop - création de la partie, gère les mécanismes du jeu
 
         self.resetGrid()
 
@@ -40,18 +48,22 @@ class Interface_game(Win):
             for c in range(self.drop.cols):
                 self.frameGrid[r][c]['bg'] = self.colors[self.drop.grid[r,c]]
         self.frameGrid.update()
+        #Couleur des blocs dans la grille
 
     def resetGrid(self):
         self.drop.reset()
         self.txtend['fg'] = self.bg
         self.end = False
         self.show()
+        #Reset la partie actuelle
 
     def returnMenu(self):
         self.exit()
+        #Retour au menu
 
     def scores(self):
         interface = Interface_scores()
+        #Affichage des scores
 
     def event(self, widget, code, mods):
         if self.end == False:
@@ -68,7 +80,7 @@ class Interface_game(Win):
             if code == 'Up':
                 self.drop.rotate()
                 self.show()
-        #si on actionne la touche bas, gauche, droite ou haut, on renvoie la fonction correspondante
+        #Si on actionne la touche bas, gauche, droite ou haut, on renvoie la fonction correspondante
 
     def stepBreak(self):
         self.drop.step()
