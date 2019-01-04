@@ -14,3 +14,4 @@ class Regles(Win):
         "sur la quantité... Mais n'oubliez pas que les blocs de haut \n"\
         "niveau sont plus longs à obtenir ! "
         self.txtend = Label(self, text=regles, font='Cambria 20', fg='#000000')
+        #Affichage des règles du jeu dans une fenêtre à part
