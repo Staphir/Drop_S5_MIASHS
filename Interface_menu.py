@@ -11,6 +11,7 @@ class Interface_menu(Win):
     def __init__(self, rows=8, cols=5, size=54, nbNewBricks=2):
 
         Win.__init__(self, title='DROP', bg=('#cde3f2'),op=10)
+        self.master.resizable(False,False)
         self.nbBricks = nbNewBricks
         self.varSize = size
         self.rows = rows

@@ -2,8 +2,8 @@
 """Project L3 : Drop"""
 # ==============================================================================
 __author__  = "Lucie Thomasson & Maxime Dulieu"
-__version__ = "2.0"
-__date__    = "2018-12-19"
+__version__ = "3.0"
+__date__    = "2019-01-04"
 # ==============================================================================
 from Interface_menu import *
 from Interface_game import *

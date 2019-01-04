@@ -7,8 +7,9 @@ from time import sleep
 
 class Interface_game(Win):
     """..."""
-    def __init__(self,rows=8, cols=5, nbNewBricks=2, size=54, name = 'Unknow'):
+    def __init__(self,rows=8, cols=5, nbNewBricks=2, size=54, name = 'Anonyme'):
         Win.__init__(self, title='DROP', bg=('#116269'),op=10,key=self.event)
+        self.master.resizable(False,False)
         rows += nbNewBricks+1
         self.end = False
         self.txtScore = '0'
