@@ -5,7 +5,7 @@ class Regles(Win):
     """Création de la fenêtre affichant les règles"""
 
     def __init__(self):
-        Win.__init__(self,bg=('#cde3f2'))
+        Win.__init__(self,bg=('#0066CC'),op='15')
         regles = "Le but du jeu est de former des assemblages d'au moins 3 blocs \n adjacents de la même couleur. Chaque fois qu'un tel assemblage \n"\
         "est obtenu, il est remplacé par un bloc de plus haut niveau, \n caractérisé par une nouvelle couleur. \n"\
         "\n"\

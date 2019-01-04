@@ -3,11 +3,11 @@ from ezTK import *
 class Interface_scores(Win):
     """..."""
     def __init__(self):
-        Win.__init__(self, title='SCORES', bg=('#0066CC'), op='10')
-        self.txtend = Label(self, text='Scores :', font='Cambria 20', width="15", fg='#000000')
+        Win.__init__(self, title='SCORES', bg=('#0066CC'), op='15')
+        self.txtend = Label(self, text='Scores :', font='Cambria 20', fg='#000000')
         self.name_file = "save.txt"
         self.txtScores = self.uploadScore()
-        self.scores = Label(self, text=self.txtScores, font='Cambria 20', width="15", fg='#000000')
+        self.scores = Label(self, text=self.txtScores, font='Cambria 20', fg='#000000')
         #Affichage des meilleurs scores des utilisateurs dans une fenêtre à part 
 
     def uploadScore(self):

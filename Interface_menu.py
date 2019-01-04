@@ -8,7 +8,7 @@ from Interface_regles import *
 
 class Interface_menu(Win):
     """..."""
-    def __init__(self, rows=8, cols=5, size=64, nbNewBricks=2):
+    def __init__(self, rows=8, cols=5, size=54, nbNewBricks=2):
 
         Win.__init__(self, title='DROP', bg=('#cde3f2'),op=10)
         self.nbBricks = nbNewBricks
@@ -74,4 +74,7 @@ class Interface_menu(Win):
                 break
             else:
                 self.name += s + ' '
+        self.master.destroy()
         Interface_game(self.rows,self.cols,self.nbBricks,self.varSize,self.name)
+        self.__init__(8, 5, 54, 2)
+
