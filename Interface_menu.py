@@ -6,16 +6,8 @@ from Interface_regles import *
 # from tkinter import *
 # ------------------------------------------------------------------------------
 
-#fonction de création de la grille de Drop par-dessus l'interface menu 
-# root=Tk()
-# root.configure(width=200,height=100)
-# root.mainloop()
-#Je ne sais pas encore exactement comment l'utiliser, mais normalement c'est fait pour redimensionner la taille
-#de la fenêtre comme on veut avec Tkinter
-# Voilà le lien si tu veux : https://www.developpez.net/forums/d28285/autres-langages/python-zope/gui/tkinter/tkinter/
-
 class Interface_menu(Win):
-
+    """..."""
     def __init__(self, rows=8, cols=5, size=64, nbNewBricks=2):
 
         Win.__init__(self, title='DROP', bg=('#cde3f2'),op=10)
@@ -43,11 +35,10 @@ class Interface_menu(Win):
         self.liste.insert(3, "8 lignes, 8 colonnes (carré)")
         self.liste.insert(4, "6 lignes, 4 colonnes (mini)")
         #Il faut que le paramètre sélectionné soit enregistré quand on lance le jeu (et aussi sur les scores ?)
-        #POURQUOI LA LISTE DEROULANTE S'AFFICHE PAS BIEN FJPOEIZOGBI
 
         self.newBricks = Label(Midframe, text="Combien de briques voulez-vous gérer par tour ?",  font='Cambria 13', width="50", bg="#cde3f2" )
         self.spin = IntVar(self,2)
-        self.liste2 = Spinbox(Midframe, textvariable=self.spin, from_=2,to=4,state='readonly',width='31',bg='#cde3f2')
+        self.nbBricksSpin = Spinbox(Midframe, textvariable=self.spin, from_=2,to=4,state='readonly',width='31',bg='#cde3f2')
 
         self.play = Button(Midframe, text="Commencer à jouer",  font='Cambria 13', width="9", bg="#cde3f2", command = self.create_drop)
         #Il faut que le paramètre sélectionné soit enregistré quand on lance le jeu (et aussi sur les scores ?)
@@ -72,6 +63,7 @@ class Interface_menu(Win):
             self.rows, self.cols = 6,4
 
     def create_drop(self):
+        """Création d'une fenêtre de jeu avec les paramètres séléctionnées"""
         self.nbBricks = self.spin.get()
         if self.liste.curselection():
             self.rows_and_cols_selected()
@@ -79,13 +71,3 @@ class Interface_menu(Win):
         if self.name == '' or not self.name.isalnum():
             self.name = 'Unknow'
         Interface_game(self.rows,self.cols,self.nbBricks,self.varSize,self.name)
-
-if __name__ == "__main__":
-  # t = [(2,'r'),(4,'d'),(1,'k'),(2,'c')]
-  # t.sort(reverse=True)
-  # print(t)
-  # g = grid(5,3,0)
-  # for i in range(g.col): print(g[1,i])
-  # # print(g)
-  Interface_menu()
-#Interface_game(6,5,3)
