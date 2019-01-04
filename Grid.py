@@ -72,30 +72,3 @@ class grid(object):
   def clear(self):
     """reset all the items to 'self.none'"""
     self[:,:] = self.none; return self()
-# # ==============================================================================
-# if __name__ == "__main__":
-#   code = r'''
-# a, b = grid(), grid(3, 6, 0)
-# a, a.row, a.col, a.none, a.size
-# b, b.row, b.col, b.none, b.size
-# a()
-# str(a)
-# b()
-# str(b)
-# a('A','B','C','D','E'), b(1,2,3,4,5,6,7,8,9)
-# str(a)
-# str(b)
-# len(a), len(b)
-# tuple(b)
-# list(b)
-# a[0,0], b[0,-1], b[1,:], b[:,1]
-# a.clear(), b.clear()
-# b[1,0] = b[1,-1] = 1; b[0,:] = 2; b[:,1] = 3; b[1:,2:4] = 4; b[-1,::5] = 5
-# str(b)
-# c, d = b.clone(), b.copy()
-# c, d
-# c()
-# d()
-# b is c, b == c, b is d, b == d
-# '''; testcode(code)
-# # ==============================================================================
