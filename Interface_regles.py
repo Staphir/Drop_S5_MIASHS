@@ -2,6 +2,8 @@ from ezTK import *
 # ------------------------------------------------------------------------------
 
 class Regles(Win):
+    """Création de la fenêtre affichant les règles"""
+
     def __init__(self):
         Win.__init__(self,bg=('#cde3f2'))
         regles = "Le but du jeu est de former des assemblages d'au moins 3 blocs \n adjacents de la même couleur. Chaque fois qu'un tel assemblage \n"\
@@ -14,4 +16,3 @@ class Regles(Win):
         "sur la quantité... Mais n'oubliez pas que les blocs de haut \n"\
         "niveau sont plus longs à obtenir ! "
         self.txtend = Label(self, text=regles, font='Cambria 20', fg='#000000')
-        #Affichage des règles du jeu dans une fenêtre à part

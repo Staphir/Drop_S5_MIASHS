@@ -6,7 +6,7 @@ from time import sleep
 # ------------------------------------------------------------------------------
 
 class Interface_game(Win):
-
+    """..."""
     def __init__(self,rows=8, cols=5, nbNewBricks=2, size=64, name = 'Unknow'):
         Win.__init__(self, title='DROP', bg=('#116269'),op=10,key=self.event)
         rows += nbNewBricks+1
@@ -43,29 +43,30 @@ class Interface_game(Win):
         self.loop()
 
     def show(self):
+        """Mise à jour de l'interface du jeu"""
         self.score['text'] = self.drop.score
         for r in range(self.drop.rows):
             for c in range(self.drop.cols):
                 self.frameGrid[r][c]['bg'] = self.colors[self.drop.grid[r,c]]
         self.frameGrid.update()
-        #Couleur des blocs dans la grille
 
     def resetGrid(self):
+        """Reset la partie actuelle"""
         self.drop.reset()
         self.txtend['fg'] = self.bg
         self.end = False
         self.show()
-        #Reset la partie actuelle
 
     def returnMenu(self):
         self.exit()
         #Retour au menu
 
     def scores(self):
+        """Affichage des scores"""
         interface = Interface_scores()
-        #Affichage des scores
 
     def event(self, widget, code, mods):
+        """Récupère les touches appuyées par l'utilisateur etlance la fonction correspondante (contrôle des bricks à poser)"""
         if self.end == False:
             if code == 'Down':
                 self.drop.fall()
@@ -80,21 +81,23 @@ class Interface_game(Win):
             if code == 'Up':
                 self.drop.rotate()
                 self.show()
-        #Si on actionne la touche bas, gauche, droite ou haut, on renvoie la fonction correspondante
 
     def stepBreak(self):
+        """Lancement des fonctions permettant de tester si il y a besoin de break et d'effectuer les potentiels breaks"""
         self.drop.step()
         self.show()
+        # Premier teste et peut-être break
         while self.drop.stopBreak == False:
             sleep(0.5)
             self.drop.step()
             self.show()
+        # teste et peut-être break (avec des pauses) tant qu'il y a des possibilités
         if self.drop.endGame():
             self.txtend['fg'] = self.colors[1]
             self.end = True
         else:
             self.drop.newBricks()
+        # Fin de la partie ? Sinon, création des nouvelles bricks à jouer
         self.show()
         self.drop.nbStep = 0
         self.drop.stopBreak = False
-    #!!! Dialogue entre interface et Drop pendant l'ensemble du break (surtout si plusieurs break) !!!

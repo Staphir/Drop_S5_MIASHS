@@ -11,8 +11,6 @@ class Interface_menu(Win):
     def __init__(self, rows=8, cols=5, size=64, nbNewBricks=2):
 
         Win.__init__(self, title='DROP', bg=('#cde3f2'),op=10)
-        # trouver comment donner une taille fixe à la fenêtre 
-
         self.nbBricks = nbNewBricks
         self.varSize = size
         self.rows = rows
@@ -68,7 +66,12 @@ class Interface_menu(Win):
         if self.liste.curselection():
             self.rows_and_cols_selected()
         self.name = self.nameEntry.get()
-        if self.name == '' or not self.name.isalnum():
-            self.name = 'Unknow'
+        nameSplited = self.name.split(' ')
+        self.name = ''
+        for s in nameSplited:
+            if s == '' or not s.isalnum():
+                nameSplited = 'Anonyme'
+                break
+            else:
+                self.name += s + ' '
         Interface_game(self.rows,self.cols,self.nbBricks,self.varSize,self.name)
-        #Crée l'interface du Drop avec les informations sélectionnées par l'utilisateur 
