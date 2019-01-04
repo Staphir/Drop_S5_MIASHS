@@ -18,7 +18,8 @@ class Drop():
         self.listNewBricks = []
         self.nbStep = 0
         self.name = name
-
+        #Initialisation de la grille de jeu et des paramètres
+        
         #Création de la grille vide
         self.grid = grid(self.rows, self.cols, 0)
 
@@ -32,11 +33,13 @@ class Drop():
                 else:
                     self.grid[r, c] = 1
         self.newBricks()
+        #
 
     def newBricks(self):
         for c in range(self.nbBricks):
             self.grid[self.nbBricks-1,c] = random.randint(2,self.level)
         self.ligne = True
+        #Création randomisée des briques à faire tomber en haut de la grille
 
     def moveLeft(self):
         if self.grid[self.nbBricks-1,0] == 0:
@@ -44,6 +47,7 @@ class Drop():
                 for j in range(1,self.cols):
                     self.grid[i,j-1] = self.grid[i,j]
                     self.grid[i, j] = 0
+     #Permet de bouger les briques à faire tomber vers la gauche
 
     def moveRight(self):
         if self.grid[self.nbBricks-1,self.cols-1] == 0:
@@ -51,6 +55,7 @@ class Drop():
                 for j in reversed(range(1,self.cols)):
                     self.grid[i,j] = self.grid[i,j-1]
                     self.grid[i,j-1] = 0
+     #Permet de bouger les briques à faire tomber vers la droite
 
     def fall(self):
         for debut in range(self.nbBricks-1,-1,-1):
@@ -62,6 +67,8 @@ class Drop():
                             self.grid[x,y] = 0
                         else:
                             self.grid[x,y] = 1
+     #Fait tomber les briques dans la grille
+     #Stoppe leur chute s'il y a d'autres briques en-dessous
 
     def rotate(self):
         N = self.nbBricks
@@ -92,6 +99,9 @@ class Drop():
                 self.grid[N-1,cMax-i] = self.grid[i,cMax]
                 self.grid[i,cMax] = 0
             self.ligne = True
+    #Permet de faire faire une rotation aux briques avant de les faire tomber
+    #Rotation possible uniquement si il y a de la place à droite et à gauche
+    #On fait tourner d'abord les briques les plus hautes
 
     # ATENTION : 1) le plus bas --- 2) le plus à gauche
     def step(self):
@@ -119,6 +129,7 @@ class Drop():
                         listBricks.append(xy)
                         listBricks = self.lookBricks(listBricks, xy)
         return listBricks
+    #Récupère les couleurs des briques de toute la grille à chaque tour
 
     def breaked(self, listBricks):
         self.score = str(int(self.score)+(((self.grid[listBricks[0]]-1)*10)*len(listBricks))*self.nbStep)
@@ -132,6 +143,8 @@ class Drop():
                 self.grid[listBricks[i]] = 0
             else:
                 self.grid[listBricks[i]] = 1
+     #Permet de briser les briques de la même couleur côte à côte (>= 3)
+     #Ajoute la brique de couleur supérieure et met à jour le score
 
     def addNewBricks(self):
         for tuple in self.listNewBricks:
@@ -145,12 +158,14 @@ class Drop():
         else:
             self.saveScore()
             return True
+    #S'assure que le nombre de briques empilées ne dépasse pas la zone de jeu
+    #Si c'est le cas, game over 
 
     def saveScore(self):
         name_file = "save.txt"
         new_file = ""
         list_scores = []
-        # Lecture scores
+        # Lecture des scores
         try:
             r = open(name_file, "r")
         except IOError:
@@ -167,11 +182,12 @@ class Drop():
                     list_scores.append((table[1], table[0]))
                 else:
                     list_scores.insert(i, (table[1], table[0]))
+         #Insertion des scores dans le fichier 
 
             r.close()
         except ValueError:
             print("échec import txt")
-        # Ecriture scores
+        # Ecriture des scores
         try:
             w = open(name_file, "w")
         except IOError:
