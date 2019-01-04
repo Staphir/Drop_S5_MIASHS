@@ -7,6 +7,7 @@ class Interface_scores(Win):
         self.name_file = "save.txt"
         self.txtScores = self.uploadScore()
         self.scores = Label(self, text=self.txtScores, font='Cambria 20', width="15", fg='#000000')
+        #Affichage des meilleurs scores des utilisateurs dans une fenêtre à part 
 
     def uploadScore(self):
         txt = ''
@@ -23,3 +24,4 @@ class Interface_scores(Win):
         except ValueError:
             print("échec import txt")
         return txt
+    #Importe les scores sauvegardés depuis un ficihier texte 
