@@ -1,8 +1,8 @@
-ric;1500;
-ami;820;
-nini;780;
-T1;350;
-olgado;200;
-sock;180;
-bob;140;
-choc;100
+Adam Jensen;1500;
+Solid Snake;820;
+Arthur Morgan;780;
+R2D2;350;
+Lara Croft;200;
+Dr Jekyll;180;
+Juste Leblanc;140;
+Sabrina Spellman;100
